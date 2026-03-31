@@ -1,0 +1,249 @@
+[
+  {
+    "id": 1,
+    "title": "Wheels of Joy",
+    "artist": "The Wheelie Fun Band",
+    "category": "Community Anthem",
+    "verses": [
+      {
+        "type": "verse",
+        "lines": [
+          "Rolling through the city streets,",
+          "Finding joy in everyone we meet,",
+          "Arts and music fill the air,",
+          "A community that shows it cares."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Wheels of joy, spinning free,",
+          "Together we are all we need,",
+          "Wheelie Fun Hub, our place to be,",
+          "Arts Mobile Community."
+        ]
+      },
+      {
+        "type": "verse",
+        "lines": [
+          "Paint and music, dance and song,",
+          "Every voice where it belongs,",
+          "Mobile arts across the land,",
+          "Reaching out a helping hand."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Wheels of joy, spinning free,",
+          "Together we are all we need,",
+          "Wheelie Fun Hub, our place to be,",
+          "Arts Mobile Community."
+        ]
+      },
+      {
+        "type": "bridge",
+        "lines": [
+          "We roll together, side by side,",
+          "With open hearts and open minds,",
+          "No matter where the road may go,",
+          "Our community will always grow."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Wheels of joy, spinning free,",
+          "Together we are all we need,",
+          "Wheelie Fun Hub, our place to be,",
+          "Arts Mobile Community."
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Shine Together",
+    "artist": "Arts Mobile Ensemble",
+    "category": "Inspirational",
+    "verses": [
+      {
+        "type": "verse",
+        "lines": [
+          "Every star has got a light to share,",
+          "Every voice deserves to fill the air,",
+          "When we come together as one,",
+          "Beautiful things can be done."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Shine together, shine together,",
+          "Brighter when we're side by side,",
+          "Shine together, shine together,",
+          "Let your inner light shine wide."
+        ]
+      },
+      {
+        "type": "verse",
+        "lines": [
+          "Music is the language of the soul,",
+          "Art and dance can make the broken whole,",
+          "From the youngest to the old,",
+          "Every story must be told."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Shine together, shine together,",
+          "Brighter when we're side by side,",
+          "Shine together, shine together,",
+          "Let your inner light shine wide."
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Move and Groove",
+    "artist": "The Community Crew",
+    "category": "Upbeat",
+    "verses": [
+      {
+        "type": "verse",
+        "lines": [
+          "Get up on your feet, let's move today,",
+          "Everyone is welcome here to play,",
+          "Music fills our hearts with so much fun,",
+          "Let's dance together, everyone."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Move and groove, feel the beat,",
+          "From your head down to your feet,",
+          "Move and groove, let's celebrate,",
+          "This community is really great."
+        ]
+      },
+      {
+        "type": "bridge",
+        "lines": [
+          "Left and right, up and down,",
+          "Biggest smiles in this town,",
+          "Old and young, big and small,",
+          "Wheelie Fun Hub loves us all."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Move and groove, feel the beat,",
+          "From your head down to your feet,",
+          "Move and groove, let's celebrate,",
+          "This community is really great."
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Colors of Life",
+    "artist": "Palette Collective",
+    "category": "Artistic",
+    "verses": [
+      {
+        "type": "verse",
+        "lines": [
+          "Red and blue and yellow too,",
+          "Every color shining through,",
+          "Like the art we paint each day,",
+          "Washing all the grey away."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Colors of life, painting our world,",
+          "Every brushstroke, every swirl,",
+          "Colors of life, bold and bright,",
+          "Filling every day with light."
+        ]
+      },
+      {
+        "type": "verse",
+        "lines": [
+          "Green of nature, sky of blue,",
+          "Endless shades in everything we do,",
+          "Arts and crafts and songs we sing,",
+          "Joy is the color that we bring."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Colors of life, painting our world,",
+          "Every brushstroke, every swirl,",
+          "Colors of life, bold and bright,",
+          "Filling every day with light."
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Together We Rise",
+    "artist": "Unity Voices",
+    "category": "Empowerment",
+    "verses": [
+      {
+        "type": "verse",
+        "lines": [
+          "When the world feels heavy on your heart,",
+          "Remember we will never be apart,",
+          "Every challenge makes us strong,",
+          "In this community we all belong."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Together we rise, higher than before,",
+          "Together we rise, opening every door,",
+          "Hand in hand, we face the day,",
+          "Together we rise, together we'll find a way."
+        ]
+      },
+      {
+        "type": "verse",
+        "lines": [
+          "From the arts to music to dance and more,",
+          "Each of us brings something to explore,",
+          "Celebrating what makes each unique,",
+          "This is the future that we seek."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Together we rise, higher than before,",
+          "Together we rise, opening every door,",
+          "Hand in hand, we face the day,",
+          "Together we rise, together we'll find a way."
+        ]
+      },
+      {
+        "type": "bridge",
+        "lines": [
+          "We are the arts, we are the song,",
+          "We are the place where you belong,",
+          "Mobile community, always near,",
+          "Wheelie Fun Hub — we're all here."
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lyric Live — Wheelie Fun Hub integration for the Arts Mobile Community Center" />
+  <title>Lyric Live — Wheelie Fun Hub | Arts Mobile Community Center</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ── Header ──────────────────────────────────────────── -->
+  <header class="app-header" role="banner">
+    <div class="brand">
+      <div class="brand-logo" aria-hidden="true">🎡</div>
+      <div class="brand-text">
+        <h1>Lyric Live</h1>
+        <p>Wheelie Fun Hub · Arts Mobile Community Center</p>
+      </div>
+    </div>
+
+    <div class="header-controls">
+      <button id="tier-badge" class="tier-badge free" title="Click to cycle plans (demo)">
+        Free
+      </button>
+    </div>
+  </header>
+
+  <!-- ── Main workspace ──────────────────────────────────── -->
+  <main class="workspace" role="main">
+
+    <!-- ── Sidebar ──────────────────────────────────────── -->
+    <nav class="sidebar" aria-label="Song library and controls">
+
+      <!-- Tab bar -->
+      <div class="sidebar-tabs" role="tablist" aria-label="Sidebar panels">
+        <button class="tab-btn active" data-tab="songs" role="tab" aria-selected="true" aria-controls="tab-songs">
+          <span class="tab-icon" aria-hidden="true">🎵</span>
+          <span>Songs</span>
+        </button>
+        <button class="tab-btn" data-tab="setlist" role="tab" aria-selected="false" aria-controls="tab-setlist">
+          <span class="tab-icon" aria-hidden="true">📋</span>
+          <span>Setlist</span>
+        </button>
+        <button class="tab-btn" data-tab="settings" role="tab" aria-selected="false" aria-controls="tab-settings">
+          <span class="tab-icon" aria-hidden="true">⚙️</span>
+          <span>Settings</span>
+        </button>
+      </div>
+
+      <!-- Songs tab -->
+      <div id="tab-songs" class="tab-panel active" role="tabpanel" aria-labelledby="">
+
+        <div class="search-box">
+          <div class="search-input-wrap">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input
+              id="search-input"
+              type="search"
+              class="search-input"
+              placeholder="Search songs, artists…"
+              aria-label="Search songs"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        <div id="category-filter" class="category-filter" role="group" aria-label="Filter by category">
+          <!-- populated by JS -->
+        </div>
+
+        <div id="song-list" class="song-list" role="list" aria-label="Song library">
+          <!-- populated by JS -->
+        </div>
+
+      </div><!-- /tab-songs -->
+
+      <!-- Setlist tab -->
+      <div id="tab-setlist" class="tab-panel" role="tabpanel">
+        <div class="setlist-header">
+          <h3>🎶 Tonight's Setlist</h3>
+          <button id="btn-clear-setlist" class="btn btn-sm" title="Clear setlist" aria-label="Clear setlist">
+            🗑 Clear
+          </button>
+        </div>
+        <div id="setlist-items" class="setlist-list" role="list" aria-label="Setlist">
+          <div id="setlist-empty" class="setlist-empty" role="listitem">
+            <span class="empty-icon" aria-hidden="true">📋</span>
+            Setlist is empty.<br />
+            Select a song and click <strong>+ Add to Setlist</strong>.
+          </div>
+        </div>
+      </div><!-- /tab-setlist -->
+
+      <!-- Settings tab -->
+      <div id="tab-settings" class="tab-panel" role="tabpanel">
+        <div class="settings-panel">
+
+          <div class="settings-group">
+            <h4>Display</h4>
+
+            <div class="setting-row">
+              <label class="setting-label" for="setting-theme">Theme</label>
+              <select id="setting-theme" class="setting-select" aria-label="Display theme">
+                <!-- populated by JS based on tier -->
+              </select>
+            </div>
+
+            <div class="setting-row">
+              <label class="setting-label" for="setting-font-size">Font size</label>
+              <select id="setting-font-size" class="setting-select" aria-label="Font size">
+                <!-- populated by JS based on tier -->
+              </select>
+            </div>
+
+            <div class="setting-row">
+              <label class="setting-label" for="setting-verse-labels">
+                Verse labels
+                <span class="setting-sub">Show Verse / Chorus labels</span>
+              </label>
+              <label class="toggle" aria-label="Show verse labels">
+                <input id="setting-verse-labels" type="checkbox" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div><!-- /Display -->
+
+          <div class="settings-group">
+            <h4>Playback</h4>
+
+            <div class="setting-row">
+              <label class="setting-label" for="setting-auto-advance">
+                Auto-advance
+                <span class="setting-sub">Move to next song automatically <span class="pro-lock">PRO</span></span>
+              </label>
+              <label class="toggle" aria-label="Auto-advance setlist">
+                <input id="setting-auto-advance" type="checkbox" disabled />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div><!-- /Playback -->
+
+          <div class="settings-group">
+            <h4>Projection</h4>
+
+            <div class="setting-row">
+              <label class="setting-label" for="setting-watermark">
+                Show watermark
+                <span class="setting-sub">Display branding on projection</span>
+              </label>
+              <label class="toggle" aria-label="Show watermark">
+                <input id="setting-watermark" type="checkbox" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div><!-- /Projection -->
+
+          <div class="settings-group">
+            <h4>About</h4>
+            <p style="font-size:.8rem; color: var(--wfh-text-muted); line-height: 1.6;">
+              <strong style="color:var(--wfh-text)">Lyric Live</strong><br />
+              Wheelie Fun Hub Integration<br />
+              Arts Mobile Community Center<br />
+              <span style="color: var(--wfh-primary)">v1.0.0</span>
+            </p>
+            <p style="font-size:.75rem; color: var(--wfh-text-muted); margin-top:.75rem; line-height:1.5;">
+              <strong>Keyboard shortcuts:</strong><br />
+              ← / → &nbsp;Previous / Next verse<br />
+              P &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Toggle projection<br />
+              Esc &nbsp;&nbsp;&nbsp;&nbsp;Close projection
+            </p>
+          </div>
+
+        </div><!-- /settings-panel -->
+      </div><!-- /tab-settings -->
+
+    </nav><!-- /sidebar -->
+
+    <!-- ── Display area ─────────────────────────────────── -->
+    <section class="display-area" aria-label="Lyrics display">
+
+      <!-- Toolbar -->
+      <div class="display-toolbar" role="toolbar" aria-label="Playback controls">
+        <div class="toolbar-group">
+          <button id="btn-prev-verse" class="toolbar-btn" title="Previous verse (←)" aria-label="Previous verse">
+            ◀ Prev
+          </button>
+          <button id="btn-next-verse" class="toolbar-btn" title="Next verse (→)" aria-label="Next verse">
+            Next ▶
+          </button>
+        </div>
+        <div class="toolbar-group">
+          <button id="btn-add-setlist" class="toolbar-btn" title="Add current song to setlist" aria-label="Add to setlist">
+            ➕ Add to Setlist
+          </button>
+          <button id="btn-projection" class="toolbar-btn" title="Open full-screen projection (P)" aria-label="Open projection mode">
+            📽 Projection
+          </button>
+        </div>
+        <div class="toolbar-group" style="flex:1; justify-content: flex-start;">
+          <span id="song-title-display" class="song-title-display">No song selected</span>
+        </div>
+        <span id="verse-counter" class="verse-counter" aria-live="polite" aria-label="Verse position"></span>
+      </div>
+
+      <!-- Verse navigation pills -->
+      <div id="verse-nav" class="verse-nav" role="navigation" aria-label="Verse navigator">
+        <!-- populated by JS -->
+      </div>
+
+      <!-- Lyrics preview -->
+      <div class="lyrics-display">
+        <div
+          id="lyrics-preview"
+          class="lyrics-preview font-lg theme-dark"
+          role="region"
+          aria-label="Lyrics"
+          aria-live="polite"
+        >
+          <div class="lyrics-empty-state">
+            <span class="empty-icon" aria-hidden="true">🎤</span>
+            <h2>Select a Song</h2>
+            <p>Choose a song from the library to display lyrics</p>
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /display-area -->
+
+  </main><!-- /workspace -->
+
+  <!-- ── Status bar ────────────────────────────────────── -->
+  <footer class="status-bar" role="contentinfo">
+    <div class="status-item">
+      <span class="status-dot"></span>
+      <span>Wheelie Fun Hub · Arts Mobile Community Center</span>
+    </div>
+    <div class="status-item">
+      <span id="status-song-count">0 songs</span>
+      &nbsp;·&nbsp;
+      <span id="status-setlist-count">0 in setlist</span>
+    </div>
+    <div class="status-item">
+      <kbd>← →</kbd>&nbsp;verses &nbsp;·&nbsp; <kbd>P</kbd>&nbsp;projection &nbsp;·&nbsp; <kbd>Esc</kbd>&nbsp;close
+    </div>
+  </footer>
+
+</div><!-- /#app -->
+
+<!-- ── Projection overlay (full-screen) ──────────────────── -->
+<div
+  id="projection-overlay"
+  class="projection-overlay font-lg theme-dark"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Projection display"
+>
+  <div id="proj-verse-label" class="verse-type-label" aria-label="Verse type"></div>
+  <div id="proj-lyrics" class="lyrics-lines" aria-live="polite"></div>
+  <span id="proj-watermark" class="watermark" aria-hidden="true">Lyric Live · Wheelie Fun Hub</span>
+  <div class="proj-nav" role="navigation" aria-label="Projection navigation">
+    <button id="proj-prev" class="proj-nav-btn" aria-label="Previous verse">◀ Prev</button>
+    <span id="proj-verse-counter" style="color:rgba(255,255,255,.6); font-size:.85rem; align-self:center;"></span>
+    <button id="proj-next" class="proj-nav-btn" aria-label="Next verse">Next ▶</button>
+    <button id="proj-close" class="proj-nav-btn close-btn" aria-label="Close projection">✕ Close</button>
+  </div>
+</div>
+
+<!-- ── Toast notifications ───────────────────────────────── -->
+<div id="toast-container" class="toast-container" role="status" aria-live="polite" aria-atomic="false"></div>
+
+<!-- ── Tier upgrade modal ────────────────────────────────── -->
+<div id="upgrade-modal" class="upgrade-modal" role="dialog" aria-modal="true" aria-labelledby="upgrade-title">
+  <div class="upgrade-card">
+    <h2 id="upgrade-title">🚀 Upgrade Your Plan</h2>
+    <p id="upgrade-reason">Unlock more features with a higher plan.</p>
+
+    <div class="tier-options" role="group" aria-label="Choose a plan">
+
+      <div class="tier-card" data-tier="free" role="button" tabindex="0" aria-label="Free plan">
+        <div class="tier-name" style="color: var(--tier-free)">Free</div>
+        <div class="tier-price">$0 / month</div>
+        <ul class="tier-features">
+          <li>5-song setlist</li>
+          <li>Dark theme</li>
+          <li>Medium &amp; Large font</li>
+        </ul>
+      </div>
+
+      <div class="tier-card selected" data-tier="basic" role="button" tabindex="0" aria-label="Basic plan">
+        <div class="tier-name" style="color: var(--tier-basic)">Basic</div>
+        <div class="tier-price">$9 / month</div>
+        <ul class="tier-features">
+          <li>20-song setlist</li>
+          <li>4 themes</li>
+          <li>Projection mode</li>
+          <li>All font sizes</li>
+        </ul>
+      </div>
+
+      <div class="tier-card" data-tier="pro" role="button" tabindex="0" aria-label="Pro plan">
+        <div class="tier-name" style="color: var(--tier-pro)">Pro</div>
+        <div class="tier-price">$19 / month</div>
+        <ul class="tier-features">
+          <li>Unlimited setlist</li>
+          <li>5 themes incl. Wheelie</li>
+          <li>Auto-advance</li>
+          <li>Giant font size</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="upgrade-actions">
+      <button id="btn-upgrade-confirm" class="btn btn-primary">Upgrade Now</button>
+      <button id="btn-upgrade-close" class="btn btn-secondary">Not Now</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
