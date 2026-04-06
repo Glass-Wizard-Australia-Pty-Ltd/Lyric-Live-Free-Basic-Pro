@@ -34,6 +34,8 @@ npx serve .
 # then visit http://localhost:3000
 ```
 
+Your active plan, display settings, and setlist are **automatically saved** in browser `localStorage` and restored the next time you open the app.
+
 ---
 
 ## Project Structure
