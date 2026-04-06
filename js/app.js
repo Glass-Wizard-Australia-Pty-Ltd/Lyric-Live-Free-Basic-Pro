@@ -15,6 +15,9 @@ const APP_CONFIG = {
   organization: 'Arts Mobile Community Center',
   version: '1.0.0',
   defaultTier: 'free',
+  glassWizardStudioUrl: 'https://github.com/Glass-Wizard-Australia-Pty-Ltd/Glass-Wizard-Github',
+  glassWizardGenerateEndpoint: '/api/music/generate',
+  glassWizardDefaultBars: 8,
   tiers: {
     free: {
       label: 'Free',
@@ -85,6 +88,13 @@ const state = {
     watermark: true,
   },
   projectionOpen: false,
+  glassWizard: {
+    apiUrl: '',
+    style: 'pop',
+    scale: 'C_MAJOR',
+    track: null,
+    loading: false,
+  },
 };
 
 /* ─── DOM refs ───────────────────────────────────────────── */
@@ -108,6 +118,15 @@ const dom = {
   setlistEmpty: null,
   statusSongCount: null,
   statusSetlistCount: null,
+  gwApiUrl: null,
+  gwStyle: null,
+  gwScale: null,
+  gwGenerateBtn: null,
+  gwTrackResult: null,
+  gwTrackName: null,
+  gwTrackTempo: null,
+  gwTrackStyleDisplay: null,
+  gwTrackNotes: null,
 };
 
 /* ─── Initialisation ─────────────────────────────────────── */
@@ -142,6 +161,19 @@ function cacheDomRefs() {
   dom.setlistEmpty       = document.getElementById('setlist-empty');
   dom.statusSongCount    = document.getElementById('status-song-count');
   dom.statusSetlistCount = document.getElementById('status-setlist-count');
+  dom.gwApiUrl           = document.getElementById('gw-api-url');
+  dom.gwStyle            = document.getElementById('gw-style');
+  dom.gwScale            = document.getElementById('gw-scale');
+  dom.gwGenerateBtn      = document.getElementById('btn-gw-generate');
+  dom.gwTrackResult      = document.getElementById('gw-track-result');
+  dom.gwTrackName        = document.getElementById('gw-track-name');
+  dom.gwTrackTempo       = document.getElementById('gw-track-tempo');
+  dom.gwTrackStyleDisplay = document.getElementById('gw-track-style-display');
+  dom.gwTrackNotes       = document.getElementById('gw-track-notes');
+
+  // Set the studio link href from config (single source of truth)
+  const gwStudioLink = document.getElementById('gw-studio-link');
+  if (gwStudioLink) gwStudioLink.href = APP_CONFIG.glassWizardStudioUrl;
 }
 
 async function loadSongs() {
@@ -651,6 +683,18 @@ function bindEvents() {
   dom.upgradeModal.addEventListener('click', e => {
     if (e.target === dom.upgradeModal) closeUpgradeModal();
   });
+
+  // Glass Wizard
+  dom.gwApiUrl.addEventListener('change', e => {
+    state.glassWizard.apiUrl = e.target.value.trim();
+  });
+  dom.gwStyle.addEventListener('change', e => {
+    state.glassWizard.style = e.target.value;
+  });
+  dom.gwScale.addEventListener('change', e => {
+    state.glassWizard.scale = e.target.value;
+  });
+  dom.gwGenerateBtn.addEventListener('click', generateGlassWizardTrack);
 }
 
 function handleKeyboard(e) {
@@ -701,6 +745,68 @@ function toast(type, message) {
   el.textContent = message;
   dom.toastContainer.appendChild(el);
   setTimeout(() => el.remove(), 3200);
+}
+
+/* ─── Glass Wizard integration ───────────────────────────── */
+
+async function generateGlassWizardTrack() {
+  const apiUrl = state.glassWizard.apiUrl.trim();
+  if (!apiUrl) {
+    toast('warning', '⚠️ Enter a Glass Wizard API URL first');
+    return;
+  }
+
+  try {
+    new URL(apiUrl); // validate URL format early
+  } catch {
+    toast('warning', '⚠️ Glass Wizard: invalid API URL');
+    return;
+  }
+
+  if (state.glassWizard.loading) return;
+  state.glassWizard.loading = true;
+  dom.gwGenerateBtn.disabled = true;
+  dom.gwGenerateBtn.textContent = '⏳ Generating…';
+  dom.gwTrackResult.classList.add('hidden');
+
+  try {
+    const endpoint = new URL(APP_CONFIG.glassWizardGenerateEndpoint, apiUrl).toString();
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        style: state.glassWizard.style,
+        scale: state.glassWizard.scale,
+        bars: APP_CONFIG.glassWizardDefaultBars,
+      }),
+    });
+
+    if (!response.ok) throw new Error(`Server returned ${response.status}`);
+
+    const data = await response.json();
+    if (!data.success) throw new Error(data.error || 'Generation failed');
+
+    const track = data.track;
+    state.glassWizard.track = track;
+    renderGlassWizardTrack(track);
+    toast('success', `🎵 Track generated: ${track.name}`);
+  } catch (err) {
+    console.error('Glass Wizard generate error:', err);
+    toast('warning', `⚠️ Glass Wizard: ${err.message}`);
+  } finally {
+    state.glassWizard.loading = false;
+    dom.gwGenerateBtn.disabled = false;
+    dom.gwGenerateBtn.textContent = '✨ Generate AI Music';
+  }
+}
+
+function renderGlassWizardTrack(track) {
+  dom.gwTrackName.textContent = track.name || 'Untitled Track';
+  dom.gwTrackTempo.textContent = `♩ ${track.tempo} BPM`;
+  dom.gwTrackStyleDisplay.textContent = `🎛 ${track.style}`;
+  const noteCount = Array.isArray(track.notes) ? track.notes.length : '–';
+  dom.gwTrackNotes.textContent = `🎼 ${noteCount} notes`;
+  dom.gwTrackResult.classList.remove('hidden');
 }
 
 /* ─── Helpers ────────────────────────────────────────────── */

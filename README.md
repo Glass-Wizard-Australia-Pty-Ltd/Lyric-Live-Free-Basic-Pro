@@ -16,6 +16,7 @@ A web-based lyrics display application built for the **Wheelie Fun Hub** at the 
 | Font sizes | Medium, Large | 4 sizes | 5 sizes (incl. Giant) |
 | Full-screen projection mode | ❌ | ✅ | ✅ |
 | Auto-advance setlist | ❌ | ❌ | ✅ |
+| Glass Wizard AI music | ✅ | ✅ | ✅ |
 
 ---
 
@@ -103,3 +104,33 @@ Click the **Free / Basic / Pro** badge in the top-right corner to cycle through 
 ## About
 
 Built for the **Wheelie Fun Hub** at the **Arts Mobile Community Center** to support live performances, community sing-alongs, and arts events.
+
+---
+
+## Glass Wizard Integration
+
+Lyric Live is integrated with [**Glass Wizard**](https://github.com/Glass-Wizard-Australia-Pty-Ltd/Glass-Wizard-Github) — an AI music generation and XRPL NFT platform by Glass Wizard Australia Pty Ltd.
+
+### What it does
+
+The **Glass Wizard** tab in the sidebar lets you generate an AI-composed backing track for any song in the library, powered by the Glass Wizard Music API.
+
+| Setting | Options |
+|---------|---------|
+| **Style** | Pop, Electronic, Ambient, Jazz, Classical, Experimental |
+| **Scale** | C Major, A Minor, G Major, D Minor, Pentatonic, Blues, Dorian, Lydian |
+
+### How to use it
+
+1. Run a local Glass Wizard server (or point to a deployed instance):
+   ```bash
+   git clone https://github.com/Glass-Wizard-Australia-Pty-Ltd/Glass-Wizard-Github
+   cd Glass-Wizard-Github
+   npm install
+   npm run dev   # starts on http://localhost:3000
+   ```
+2. Open Lyric Live and click the **🎵 Glass Wizard** tab in the sidebar.
+3. Enter `http://localhost:3000` (or your deployed URL) in the **API URL** field.
+4. Choose a **Style** and **Scale**, then click **✨ Generate AI Music**.
+5. The generated track name, tempo, style, and note count are displayed in the panel.
+6. Click **Open Glass Wizard Studio ↗** to visit the full studio for XRPL NFT minting.

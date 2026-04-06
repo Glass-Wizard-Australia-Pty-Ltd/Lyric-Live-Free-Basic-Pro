@@ -775,6 +775,116 @@ body {
 
 .upgrade-actions { display: flex; gap: .75rem; justify-content: center; }
 
+/* ── Glass Wizard panel ──────────────────────────────────── */
+.gw-panel {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.gw-header {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.gw-logo {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.gw-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--wfh-accent);
+}
+
+.gw-tagline {
+  font-size: .72rem;
+  color: var(--wfh-text-muted);
+}
+
+.gw-url-row { flex-direction: column; align-items: stretch; gap: .35rem; }
+.gw-url-row .setting-label { margin-bottom: 0; }
+
+.gw-input {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: var(--radius-sm);
+  color: var(--wfh-text);
+  font-size: .82rem;
+  padding: .45rem .7rem;
+  width: 100%;
+  transition: border-color var(--transition);
+}
+.gw-input:focus {
+  outline: none;
+  border-color: var(--wfh-accent);
+}
+.gw-input::placeholder { color: var(--wfh-text-muted); }
+
+.gw-generate-btn {
+  width: 100%;
+  margin-top: .5rem;
+  background: linear-gradient(135deg, var(--wfh-accent), var(--wfh-surface));
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-size: .88rem;
+  font-weight: 600;
+  padding: .6rem 1rem;
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+.gw-generate-btn:hover:not(:disabled) { opacity: .85; }
+.gw-generate-btn:disabled { opacity: .45; cursor: not-allowed; }
+
+.gw-track-result {
+  background: rgba(0,188,212,.08);
+  border: 1px solid rgba(0,188,212,.25);
+  border-radius: var(--radius-sm);
+  padding: .75rem;
+}
+
+.gw-track-name {
+  font-weight: 700;
+  font-size: .9rem;
+  color: var(--wfh-accent);
+  margin-bottom: .4rem;
+}
+
+.gw-track-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+}
+
+.gw-track-meta span {
+  background: rgba(255,255,255,.06);
+  border-radius: 4px;
+  font-size: .72rem;
+  padding: .2rem .45rem;
+  color: var(--wfh-text-muted);
+}
+
+.gw-studio-link {
+  display: block;
+  text-align: center;
+  font-size: .78rem;
+  color: var(--wfh-accent);
+  text-decoration: none;
+  padding: .4rem;
+  border: 1px solid rgba(0,188,212,.3);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition);
+}
+.gw-studio-link:hover {
+  background: rgba(0,188,212,.1);
+}
+
 /* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 900px) {
   .workspace { grid-template-columns: 260px 1fr; }
