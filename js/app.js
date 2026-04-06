@@ -85,7 +85,63 @@ const state = {
     watermark: true,
   },
   projectionOpen: false,
+  savedSetlistIds: null,
 };
+
+/* ─── Persistence (localStorage) ────────────────────────── */
+
+const STORAGE_KEY = 'lyricLive_state';
+
+function saveState() {
+  try {
+    const persist = {
+      tier: state.tier,
+      settings: state.settings,
+      setlist: state.setlist.map(s => s.id),
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(persist));
+  } catch (_) {
+    // localStorage unavailable (private mode, storage quota, etc.) — ignore
+  }
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const saved = JSON.parse(raw);
+    if (saved.tier && APP_CONFIG.tiers[saved.tier]) {
+      state.tier = saved.tier;
+    }
+    if (saved.settings && typeof saved.settings === 'object') {
+      const s = saved.settings;
+      const allThemes = Object.keys(THEME_LABELS);
+      const allFontSizes = Object.keys(FONT_SIZE_LABELS);
+      if (allThemes.includes(s.theme))         state.settings.theme            = s.theme;
+      if (allFontSizes.includes(s.fontSize))   state.settings.fontSize         = s.fontSize;
+      if (typeof s.showVerseLabels === 'boolean') state.settings.showVerseLabels = s.showVerseLabels;
+      if (typeof s.autoAdvance    === 'boolean') state.settings.autoAdvance     = s.autoAdvance;
+      if (typeof s.autoAdvanceDelay === 'number' &&
+          s.autoAdvanceDelay >= 1 && s.autoAdvanceDelay <= 60) {
+        state.settings.autoAdvanceDelay = s.autoAdvanceDelay;
+      }
+      if (typeof s.watermark === 'boolean')    state.settings.watermark        = s.watermark;
+    }
+    if (Array.isArray(saved.setlist)) {
+      state.savedSetlistIds = saved.setlist;
+    }
+  } catch (_) {
+    // Corrupt or unreadable data — start fresh
+  }
+}
+
+function restoreSetlist() {
+  if (!state.savedSetlistIds) return;
+  state.setlist = state.savedSetlistIds
+    .map(id => state.songs.find(s => s.id === id))
+    .filter(Boolean);
+  state.savedSetlistIds = null;
+}
 
 /* ─── DOM refs ───────────────────────────────────────────── */
 
@@ -114,9 +170,12 @@ const dom = {
 
 async function init() {
   cacheDomRefs();
+  loadState();
   await loadSongs();
+  restoreSetlist();
   renderSongList();
   renderCategories();
+  renderSetlist();
   applySettings();
   bindEvents();
   updateStatusBar();
@@ -391,6 +450,7 @@ function addToSetlist() {
 
   state.setlist.push(state.currentSong);
   renderSetlist();
+  saveState();
   toast('success', `➕ Added to setlist`);
 }
 
@@ -400,6 +460,7 @@ function removeFromSetlist(idx) {
     state.currentSetlistIndex = state.setlist.length - 1;
   }
   renderSetlist();
+  saveState();
   toast('info', `Removed: ${removed.title}`);
 }
 
@@ -408,6 +469,7 @@ function clearSetlist() {
   state.setlist = [];
   state.currentSetlistIndex = -1;
   renderSetlist();
+  saveState();
   toast('info', '🗑 Setlist cleared');
 }
 
@@ -535,6 +597,7 @@ function setTier(tier) {
   if (!APP_CONFIG.tiers[tier]) return;
   state.tier = tier;
   applySettings();
+  saveState();
   toast('success', `✅ Switched to ${APP_CONFIG.tiers[tier].label} plan`);
 }
 
@@ -597,6 +660,7 @@ function bindEvents() {
     state.settings.theme = e.target.value;
     renderLyricsPreview();
     if (state.projectionOpen) updateProjection();
+    saveState();
   });
 
   // Settings — font size
@@ -604,6 +668,7 @@ function bindEvents() {
     state.settings.fontSize = e.target.value;
     renderLyricsPreview();
     if (state.projectionOpen) updateProjection();
+    saveState();
   });
 
   // Settings — verse labels
@@ -611,6 +676,7 @@ function bindEvents() {
     state.settings.showVerseLabels = e.target.checked;
     renderLyricsPreview();
     if (state.projectionOpen) updateProjection();
+    saveState();
   });
 
   // Settings — auto-advance
@@ -622,6 +688,7 @@ function bindEvents() {
       return;
     }
     state.settings.autoAdvance = e.target.checked;
+    saveState();
   });
 
   // Settings — watermark
@@ -629,6 +696,7 @@ function bindEvents() {
     state.settings.watermark = e.target.checked;
     const watermark = document.getElementById('proj-watermark');
     if (watermark) watermark.classList.toggle('hidden', !e.target.checked);
+    saveState();
   });
 
   // Upgrade modal
