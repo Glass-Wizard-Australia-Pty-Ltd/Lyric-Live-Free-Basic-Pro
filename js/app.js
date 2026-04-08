@@ -137,11 +137,21 @@ function loadState() {
 }
 
 function restoreSetlist() {
-  if (!state.savedSetlistIds) return;
+function getCurrentTierMaxSetlistItems() {
   const tierConfig = APP_CONFIG.tiers[state.tier] || APP_CONFIG.tiers[APP_CONFIG.defaultTier];
+  return tierConfig.maxSetlistItems;
+}
+
+function clampSetlistToTierLimit(setlist) {
+  return setlist.slice(0, getCurrentTierMaxSetlistItems());
+}
+
+function restoreSetlist() {
+  if (!state.savedSetlistIds) return;
   const restoredSetlist = state.savedSetlistIds
     .map(id => state.songs.find(s => s.id === id))
     .filter(Boolean);
+  state.setlist = clampSetlistToTierLimit(restoredSetlist);
   state.setlist = restoredSetlist.slice(0, tierConfig.maxSetlistItems);
   state.savedSetlistIds = null;
 }
