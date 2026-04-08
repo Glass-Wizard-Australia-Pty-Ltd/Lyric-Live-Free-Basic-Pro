@@ -115,10 +115,11 @@ function loadState() {
     }
     if (saved.settings && typeof saved.settings === 'object') {
       const s = saved.settings;
-      const allThemes = Object.keys(THEME_LABELS);
-      const allFontSizes = Object.keys(FONT_SIZE_LABELS);
-      if (allThemes.includes(s.theme))         state.settings.theme            = s.theme;
-      if (allFontSizes.includes(s.fontSize))   state.settings.fontSize         = s.fontSize;
+      const tierConfig = APP_CONFIG.tiers[state.tier];
+      const allowedThemes = tierConfig.themes;
+      const allowedFontSizes = tierConfig.fontSizes;
+      if (allowedThemes.includes(s.theme))         state.settings.theme            = s.theme;
+      if (allowedFontSizes.includes(s.fontSize))   state.settings.fontSize         = s.fontSize;
       if (typeof s.showVerseLabels === 'boolean') state.settings.showVerseLabels = s.showVerseLabels;
       if (typeof s.autoAdvance    === 'boolean') state.settings.autoAdvance     = s.autoAdvance;
       if (typeof s.autoAdvanceDelay === 'number' &&
@@ -137,9 +138,11 @@ function loadState() {
 
 function restoreSetlist() {
   if (!state.savedSetlistIds) return;
-  state.setlist = state.savedSetlistIds
+  const tierConfig = APP_CONFIG.tiers[state.tier] || APP_CONFIG.tiers[APP_CONFIG.defaultTier];
+  const restoredSetlist = state.savedSetlistIds
     .map(id => state.songs.find(s => s.id === id))
     .filter(Boolean);
+  state.setlist = restoredSetlist.slice(0, tierConfig.maxSetlistItems);
   state.savedSetlistIds = null;
 }
 
@@ -179,6 +182,7 @@ async function init() {
   applySettings();
   bindEvents();
   updateStatusBar();
+  saveState();
   toast('info', '🎡 Wheelie Fun Hub — Lyric Live ready!');
 }
 
