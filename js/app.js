@@ -609,10 +609,30 @@ function applySettings() {
 
 function setTier(tier) {
   if (!APP_CONFIG.tiers[tier]) return;
+
   state.tier = tier;
+
+  const tierConfig = APP_CONFIG.tiers[tier];
+  const maxSetlistItems = tierConfig.maxSetlistItems;
+
+  if (Array.isArray(state.setlist) && state.setlist.length > maxSetlistItems) {
+    state.setlist = state.setlist.slice(0, maxSetlistItems);
+
+    if (typeof currentSetlistIndex === 'number') {
+      currentSetlistIndex = state.setlist.length === 0
+        ? 0
+        : Math.min(currentSetlistIndex, state.setlist.length - 1);
+    }
+  }
+
   applySettings();
+
+  if (typeof renderSetlist === 'function') {
+    renderSetlist();
+  }
+
   saveState();
-  toast('success', `✅ Switched to ${APP_CONFIG.tiers[tier].label} plan`);
+  toast('success', `✅ Switched to ${tierConfig.label} plan`);
 }
 
 /* ─── Upgrade modal ──────────────────────────────────────── */
