@@ -48,6 +48,10 @@
           <span class="tab-icon" aria-hidden="true">⚙️</span>
           <span>Settings</span>
         </button>
+        <button class="tab-btn" data-tab="glasswizard" role="tab" aria-selected="false" aria-controls="tab-glasswizard">
+          <span class="tab-icon" aria-hidden="true">🎵</span>
+          <span>Glass Wizard</span>
+        </button>
       </div>
 
       <!-- Songs tab -->
@@ -175,6 +179,89 @@
 
         </div><!-- /settings-panel -->
       </div><!-- /tab-settings -->
+
+      <!-- Glass Wizard tab -->
+      <div id="tab-glasswizard" class="tab-panel" role="tabpanel">
+        <div class="gw-panel">
+
+          <div class="gw-header">
+            <span class="gw-logo" aria-hidden="true">🎵</span>
+            <div>
+              <div class="gw-title">Glass Wizard</div>
+              <div class="gw-tagline">AI Music · XRPL NFTs</div>
+            </div>
+          </div>
+
+          <div class="settings-group">
+            <h4>Connection</h4>
+            <div class="setting-row gw-url-row">
+              <label class="setting-label" for="gw-api-url">API URL</label>
+              <input
+                id="gw-api-url"
+                type="url"
+                class="gw-input"
+                placeholder="http://localhost:3000"
+                aria-label="Glass Wizard API URL"
+              />
+            </div>
+          </div>
+
+          <div class="settings-group">
+            <h4>Music Generation</h4>
+
+            <div class="setting-row">
+              <label class="setting-label" for="gw-style">Style</label>
+              <select id="gw-style" class="setting-select" aria-label="Music style">
+                <option value="pop">Pop</option>
+                <option value="electronic">Electronic</option>
+                <option value="ambient">Ambient</option>
+                <option value="jazz">Jazz</option>
+                <option value="classical">Classical</option>
+                <option value="experimental">Experimental</option>
+              </select>
+            </div>
+
+            <div class="setting-row">
+              <label class="setting-label" for="gw-scale">Scale</label>
+              <select id="gw-scale" class="setting-select" aria-label="Musical scale">
+                <option value="C_MAJOR">C Major</option>
+                <option value="A_MINOR">A Minor</option>
+                <option value="G_MAJOR">G Major</option>
+                <option value="D_MINOR">D Minor</option>
+                <option value="PENTATONIC">Pentatonic</option>
+                <option value="BLUES">Blues</option>
+                <option value="DORIAN">Dorian</option>
+                <option value="LYDIAN">Lydian</option>
+              </select>
+            </div>
+
+            <button id="btn-gw-generate" class="btn btn-primary gw-generate-btn" aria-label="Generate AI music track">
+              ✨ Generate AI Music
+            </button>
+          </div>
+
+          <div id="gw-track-result" class="gw-track-result hidden" aria-live="polite" aria-label="Generated track">
+            <div class="gw-track-name" id="gw-track-name"></div>
+            <div class="gw-track-meta">
+              <span id="gw-track-tempo"></span>
+              <span id="gw-track-style-display"></span>
+              <span id="gw-track-notes"></span>
+            </div>
+          </div>
+
+          <a
+            id="gw-studio-link"
+            class="gw-studio-link"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open Glass Wizard Studio on GitHub"
+          >
+            Open Glass Wizard Studio ↗
+          </a>
+
+        </div><!-- /gw-panel -->
+      </div><!-- /tab-glasswizard -->
 
     </nav><!-- /sidebar -->
 
